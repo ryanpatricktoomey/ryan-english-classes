@@ -95,6 +95,19 @@ p,.quote,.card p,.consult-panel p{text-wrap:pretty}
  h2{font-size:23px}
  .quote{font-size:18px}
 }
+
+/* Centered site identity, with secondary navigation beneath */
+header{padding:18px 0 12px}
+header nav{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:8px 26px;text-align:center}
+header nav .brand{flex:0 0 100%;display:block;text-align:center;font-size:clamp(21px,4.7vw,30px);line-height:1.35;font-weight:850;letter-spacing:-.04em;word-break:keep-all}
+header nav a:not(.brand){font-size:14px;padding:5px 7px}
+@media(max-width:700px){
+ header{padding:15px 0 11px}
+ header nav{display:flex;flex-direction:row;flex-wrap:wrap;gap:4px 20px;justify-content:center}
+ header nav .brand{flex:0 0 100%;font-size:clamp(20px,5.5vw,25px);line-height:1.4}
+ header nav a:not(.brand){font-size:14px;padding:7px 8px}
+ header nav a:last-child{text-align:center}
+}
 </style></head><body>
 <header><div class="wrap"><nav><a class="brand" href="#">🇨🇦 CheongjuRyan쌤 영어회화</a><a class="small" href="#schedule">시간표</a><a href="#consult">무료 상담 ↗</a></nav></div></header>
 <main><div class="hero"><div class="wrap"><div class="eyebrow">SPEAK ENGLISH EVERY DAY</div><h1>영어 공부는 꾸준히 하는데,<br><span class="chalk-yellow">막상 말하려면</span><br><span class="chalk-green">잘 안 나오나요?</span></h1><div class="accent-line"></div><div class="chalk-note">Speak more. Worry less. ✎</div><p class="lead">배운 표현을 실제 대화에서 꺼내 쓰는 연습.<br><strong class="chalk-pink">매일 다른 Speaking Mission</strong>으로 하루 30분, 영어로 직접 말해요.</p><span class="pill">🟢 수시 모집</span><span class="pill">월 중간 합류 가능</span><span class="pill">무료 1:1 상담</span><br><a class="btn" href="#consult">수업 알아보고 상담하기 ↗</a></div></div>
