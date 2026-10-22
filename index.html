@@ -107,6 +107,44 @@ header nav a:not(.brand){font-size:14px;padding:5px 7px}
 
 
 
+
+/* 2026 homepage redesign — single font, chalkboard hero, readable information */
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+:root{color-scheme:light;--bg:#faf8f3;--panel:#fffdf9;--text:#29282d;--muted:#615d58;--green:#a9dfc3;--yellow:#ffe36e}
+body{background:var(--bg);color:var(--text);font-family:Pretendard,system-ui,sans-serif;line-height:1.75}
+h1,h2,h3{font-family:inherit}p{color:var(--muted)}
+.hero{background:#252427;color:#fff;padding:0;border:0}
+.hero-inner{max-width:950px;padding-top:26px;padding-bottom:32px}
+.site-brand{font-size:clamp(17px,3vw,21px);font-weight:800;color:#fff}
+.hero-copy{padding:56px 0 35px}
+.hero .eyebrow{color:#a9dfc3;font-size:12px;letter-spacing:.13em}
+.hero h1{font-size:clamp(34px,6.4vw,58px);line-height:1.25;margin:15px 0 12px;max-width:none}
+.hero .lead{color:#dedbd5;font-size:17px;margin:0}
+.hero-links{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.hero-links a{display:flex;align-items:center;justify-content:center;min-height:58px;background:#38363b;border:1px solid #57545c;border-radius:10px;text-decoration:none;font-weight:750;font-size:16px;color:#fff;transition:background .2s,border-color .2s}
+.hero-links a:nth-child(1){color:#a9dfc3}.hero-links a:nth-child(2){color:#ffe36e}.hero-links a:nth-child(3){color:#ffb9d0}
+.hero-links a:hover,.hero-links a:focus-visible{background:#4a474e;border-color:#f5e7a8}
+.enrollment-note{margin:18px 0 0;color:#f2efe8;text-align:center;font-size:14px;font-weight:600}.enrollment-note span{color:#a9dfc3;margin-right:5px}
+section{background:#faf8f3;border-top:1px solid #e9e4dc;padding:64px 0}
+section:nth-of-type(even){background:#fffdf9}
+.section-kicker{color:#8a7771}.chalk-green{color:#267b58!important}.chalk-yellow{color:#9b6d16!important}.chalk-pink{color:#a64f72!important}.chalk-blue{color:#357fa4!important}
+.hero .chalk-yellow{color:#ffe36e!important}
+.card,.mission,.class,.media,.sample-card{background:#fff;border:1px solid #e8e2d9;color:#29282d;box-shadow:0 3px 18px rgba(33,29,25,.035)}
+.card p,.mission div,.sample-title{color:#47433e}.quote{color:#29282d}
+.mission{border-left:4px solid #e6b947}.mission strong{color:#267b58}
+.media{border-style:solid}.media-tip,.muted{color:#706b64}
+.sample-card:hover{border-color:#a9cdb9}.sample-action{color:#267b58}
+.status{background:#ede9e2;color:#5b554f}.status.open{background:#e0f3e7;color:#1b7548}
+.consult-panel{background:#29282d;color:#fff;border-color:#29282d;box-shadow:none}
+.consult-panel h2,.consult-panel h3{color:#fff}.consult-panel p{color:#e2ded8}
+.consult-panel .chalk-yellow{color:#ffe36e!important}.consult-panel .chalk-green{color:#a9dfc3!important}
+.consult-panel .section-kicker{color:#ffb9d0}
+.consult-step{background:#38363b;border-color:#56525a;color:#fff}.consult-step .step-number{background:#504a4b;color:#ffe36e}
+.btn{background:#ffe36e;color:#242326}
+#schedule #month{color:#85651c}
+footer{background:#29282d;color:#d7d2cc}
+@media(max-width:700px){.hero-inner{padding-top:19px;padding-bottom:25px}.hero-copy{padding:44px 0 28px}.hero h1{font-size:clamp(32px,8vw,43px);line-height:1.35}.hero h1 br{display:block}.hero h1 .chalk-yellow{display:inline}.hero h1 .chalk-yellow::before{display:none}.hero-links{gap:7px}.hero-links a{min-height:53px;font-size:14px;padding:8px 3px}.enrollment-note{font-size:12px;margin-top:16px}section{padding:49px 0}.card{box-shadow:none}}
+
 /* EDITOR COLORS START */
 .chalk-green{color:#8fe4b3!important}
 .chalk-yellow{color:#f6cf77!important}
@@ -114,12 +152,11 @@ header nav a:not(.brand){font-size:14px;padding:5px 7px}
 .chalk-blue{color:#a5d9f5!important}
 /* EDITOR COLORS END */</style><!-- Cloudflare Web Analytics --><script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon="{&quot;token&quot;: &quot;5d78ba96ea4043eb84835f4abd0e9169&quot;}"></script><!-- End Cloudflare Web Analytics -->
 </head><body>
-<header><div class="wrap"><nav><a class="brand" href="#">🇨🇦 CheongjuRyan쌤 영어회화</a><a class="small" href="#schedule">시간표</a><a href="#consult">무료 상담 ↗</a></nav></div></header>
-<main><div class="hero"><div class="wrap"><div class="eyebrow">SPEAK ENGLISH EVERY DAY</div><h1>영어 공부는 꾸준히 하는데,<br><span class="chalk-yellow">막상 말하려면</span><br><span class="chalk-green">잘 안 나오나요?</span></h1><div class="accent-line"></div><div class="chalk-note">Speak more. Worry less. ✎</div><p class="lead">배운 표현을 실제 대화에서 꺼내 쓰는 연습.<br><strong class="chalk-pink">매일 다른 Speaking Mission</strong>으로 하루 30분, 영어로 직접 말해요.</p><span class="pill">🟢 수시 모집</span><span class="pill">월 중간 합류 가능</span><span class="pill">무료 1:1 상담</span><br><a class="btn" href="#consult">수업 알아보고 상담하기 ↗</a></div></div>
-<section><div class="wrap"><div class="section-kicker">IS THIS YOU?</div><h2>이런 분들께 <span class="chalk-yellow">추천해요!</span></h2><div class="rows"><div class="card quote">💬 영어로 대화할 수 있지만 <span class="chalk-green">늘 비슷한 표현만 쓰게 되는 분</span></div><div class="card quote">📚 배운 표현은 많아도 <span class="chalk-pink">대화할 때 바로 나오지 않는 분</span></div><div class="card quote">🗣️ 영어 공부는 꾸준히 하고 있지만 <span class="chalk-blue">실제로 말할 기회가 부족한 분</span></div></div></div></section>
+<main><div class="hero"><div class="wrap hero-inner"><div class="site-brand">🇨🇦 Ryan쌤 영어회화</div><div class="hero-copy"><div class="eyebrow">SPEAK ENGLISH EVERY DAY</div><h1>매일 30분,<br><span class="chalk-yellow">영어로 대화해요!</span></h1><p class="lead">소규모 온라인 그룹 영어회화</p></div><div class="hero-links"><a href="#intro">수업 소개</a><a href="#schedule">시간표</a><a href="#consult">무료 상담</a></div><p class="enrollment-note"><span aria-hidden="true">✓</span> 월 중간 등록 가능 · 남은 수업만 결제</p></div></div>
+<section id="intro"><div class="wrap"><div class="section-kicker">IS THIS YOU?</div><h2>이런 분들께 <span class="chalk-yellow">추천해요!</span></h2><div class="rows"><div class="card quote">💬 영어로 대화할 수 있지만 <span class="chalk-green">늘 비슷한 표현만 쓰게 되는 분</span></div><div class="card quote">📚 배운 표현은 많아도 <span class="chalk-pink">대화할 때 바로 나오지 않는 분</span></div><div class="card quote">🗣️ 영어 공부는 꾸준히 하고 있지만 <span class="chalk-blue">실제로 말할 기회가 부족한 분</span></div></div></div></section>
 <section><div class="wrap"><div class="section-kicker">HOW OUR CLASS WORKS</div><h2>매일 30분, <span class="chalk-green">이렇게 수업해요!</span></h2><p>월요일부터 금요일까지 Zoom에서 진행하는 소규모 영어회화 수업이에요. <strong class="chalk-yellow">한 반 최대 8명!</strong> 매일 다른 주제로 실제 대화를 연습합니다.</p><div class="grid"><div class="card"><h3><span class="chalk-yellow">01.</span> 수업 전</h3><p>오늘의 <strong class="chalk-green">Speaking Mission</strong>과 핵심 표현이 담긴 PDF 자료를 미리 받아요. 수업에서 어떤 이야기를 할지 준비할 수 있어요.</p></div><div class="card"><h3><span class="chalk-pink">02.</span> 수업 중</h3><p>Zoom 소회의실에서 <strong class="chalk-yellow">3~5분씩 1:1 대화</strong>하고 파트너를 바꿔요. Ryan쌤도 대화에 참여하고, 메인룸에서는 질문과 표현을 함께 확인합니다.</p></div><div class="card"><h3><span class="chalk-blue">03.</span> 수업 후</h3><p>수업에서 연습한 표현을 다시 접할 수 있도록 <strong class="chalk-green">읽기·듣기 복습 자료</strong>가 제공돼요.</p></div></div><h3 class="subhead chalk-yellow">왜 파트너를 계속 바꿀까요?</h3><p>한 번 말하고 끝나는 게 아니라, <strong style="color:#f3f5f0">같은 표현을 여러 사람과 반복해서 사용</strong>해 보기 위해서예요. 대화할수록 조금씩 더 자연스럽게 내 표현으로 만들 수 있어요.</p><h3 class="subhead">매일 다른 <span class="chalk-pink">Speaking Mission</span></h3><p>교과서에 있는 대화를 그대로 읽는 수업이 아니에요. 자신의 경험을 이야기하고, 의견을 나누고, 질문하고, 공감하고, 조언하는 실제 회화를 연습해요.</p><div class="mission"><strong>MON · Just to Clarify...</strong><div>상대방의 말을 정확히 확인하기</div></div><div class="mission"><strong>TUE · When Things Go Wrong</strong><div>일이 꼬였던 경험 이야기하기</div></div><div class="mission"><strong>WED · Feed Me Like a Local</strong><div>외국인에게 현지 음식 추천하기</div></div><div class="mission"><strong>THU · Was It Worth It?</strong><div>돈이나 시간을 쓸 만했는지 말하기</div></div><div class="mission"><strong>FRI · As I Get Older</strong><div>나이 들면서 달라진 점 이야기하기</div></div><p class="muted">위 미션은 수업 예시이며, 실제 주제는 매일 달라집니다.</p></div></section>
-<section id="schedule"><div class="wrap"><div class="section-kicker">JOIN ANYTIME</div><h2>📅 <span class="chalk-yellow">이번 달</span> 수업 안내</h2><p><strong class="chalk-green">월 중간에도 합류할 수 있어요!</strong> 빈자리가 있다면 언제든 시작할 수 있습니다. <strong class="chalk-yellow">남은 수업 횟수만큼만 결제</strong>하시면 돼요.    (1회당 15,000원)</p><div id="month" class="note">2026년 10월 · 17회 수업</div><div id="calendar" class="media"><p>월간 수업 달력 이미지 준비 중</p></div><h2>수업 시간 · <span class="chalk-green">모집 현황</span></h2><p class="muted"></p><div id="classes" class="rows"></div><p class="muted">원하시는 반이 마감되었더라도 대기자 명단에 올려드릴 수 있어요! 편하게 연락 주세요. 😊</p></div></section>
 <section><div class="wrap"><div class="section-kicker">TAKE A LOOK</div><h2>🎥 <span class="chalk-yellow">수업 설명 영상</span></h2><p class="section-intro">어떤 수업인지 궁금하신가요? Ryan쌤이 직접 수업 진행 방식과 특징을 소개합니다.</p><div id="video" class="media"><p class="media-placeholder">수업 설명 영상 준비 중</p></div><h2 class="media-heading">📚 <span class="chalk-green">실제 수업 자료</span> 미리보기</h2><p class="section-intro">수업에서 사용하는 자료를 직접 확인해 보세요. PDF를 열어 미리 살펴볼 수 있습니다.</p><div id="samples" class="media"><p class="media-placeholder">샘플 PDF 준비 중</p></div></div></section>
+<section id="schedule"><div class="wrap"><div class="section-kicker">JOIN ANYTIME</div><h2>📅 <span class="chalk-yellow">이번 달</span> 수업 안내</h2><p><strong class="chalk-green">월 중간에도 합류할 수 있어요!</strong> 빈자리가 있다면 언제든 시작할 수 있습니다. <strong class="chalk-yellow">남은 수업 횟수만큼만 결제</strong>하시면 돼요.    (1회당 15,000원)</p><div id="month" class="note">2026년 10월 · 17회 수업</div><div id="calendar" class="media"><p>월간 수업 달력 이미지 준비 중</p></div><h2>수업 시간 · <span class="chalk-green">모집 현황</span></h2><p class="muted"></p><div id="classes" class="rows"></div><p class="muted">원하시는 반이 마감되었더라도 대기자 명단에 올려드릴 수 있어요! 편하게 연락 주세요. 😊</p></div></section>
 <section id="consult"><div class="wrap"><div class="consult-panel"><div class="section-kicker">LET’S TALK!</div><h2><span class="chalk-yellow">무료 1:1 상담</span>부터 시작해요</h2><p>수업이 나에게 맞을지 고민되시나요? 부담 없이 연락 주세요! 수업 참여 전 Ryan쌤과 <strong class="chalk-green">약 5~10분간 무료 Zoom 상담</strong>을 진행해요. 현재 영어 수준과 수업 방식이 잘 맞는지 함께 확인하고, 참여 가능한 반을 안내해 드립니다.</p><div class="consult-steps"><div class="consult-step"><span class="step-number">01</span><span>Instagram DM 문의</span></div><div class="consult-step"><span class="step-number">02</span><span>무료 Zoom 상담</span></div><div class="consult-step"><span class="step-number">03</span><span>수업 안내 및 참여</span></div></div><p>원하시는 반이 마감되었다면 대기자 명단에 올려드릴 수도 있어요. 😊</p><div id="contact"><p>Instagram 상담 링크 연결 예정</p></div></div></div></section></main><footer>🇨🇦 CheongjuRyan쌤 영어회화 </footer>
 <script>
 fetch('./site-data.json?ts='+Date.now()).then(r=>{if(!r.ok)throw Error();return r.json()}).then(d=>{
