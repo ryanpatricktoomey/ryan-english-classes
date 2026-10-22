@@ -7,16 +7,16 @@
   "instagram": "https://ig.me/m/cheongju_ryan",
   "samples": [
     {
-      "title": "7.6-7.10 모바일용 (A5).pdf",
-      "url": "assets/sample-1791870275104-7.6-7.10_______A5_.pdf"
+      "title": "모바일용 · FULL",
+      "url": "assets/sample-1791870279302-7.6-7.10_______Full_.pdf",
+      "description": "휴대폰에서 읽기 편한 전체 수업 자료",
+      "preview": "assets/sample-full-preview.png"
     },
     {
-      "title": "7.6-7.10 모바일용 (Full).pdf",
-      "url": "assets/sample-1791870279302-7.6-7.10_______Full_.pdf"
-    },
-    {
-      "title": "7.6-7.10 인쇄용 (A4).pdf",
-      "url": "assets/sample-1791870283853-7.6-7.10______A4_.pdf"
+      "title": "PC · 인쇄용 · A4",
+      "url": "assets/sample-1791870283853-7.6-7.10______A4_.pdf",
+      "description": "PC로 보거나 A4로 인쇄할 수 있는 수업 자료",
+      "preview": "assets/sample-a4-preview.png"
     }
   ],
   "classes": [
