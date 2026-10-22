@@ -67,7 +67,7 @@ function renderSite(data, root = document) {
   });
   if (data.samples?.length) get('samples').replaceChildren(grid);
   if (data.instagram) {
-    const contact = make('a', 'btn', '📩 Instagram DM으로 무료 상담 문의');
+    const contact = make('a', 'btn', data.contactLabel || '📩 Instagram DM으로 무료 상담 문의');
     contact.href = data.instagram;
     contact.target = '_blank';
     contact.rel = 'noopener';
