@@ -29,6 +29,6 @@ window.fetch=async (url,options={})=>{
 };
 </script>'''
 script=script.replace('HTML_VALUE',json.dumps(html,ensure_ascii=False).replace('<','\\u003c')).replace('DATA_VALUE',json.dumps(data,ensure_ascii=False).replace('<','\\u003c'))
-admin=(root/'admin.html').read_text().replace('<script src="site-renderer.js">',script+'<script src="site-renderer.js">')
+admin=(root/'admin.html').read_text().replace('<script src="site-renderer.js?',script+'<script src="site-renderer.js?')
 (root/'dist/editor-review.html').write_text(admin)
 (root/'dist/editor-test.html').write_text(admin.replace('</body>','<script src="editor-tests.js"></script></body>'))

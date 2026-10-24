@@ -100,7 +100,7 @@ function cleanMarkup(source) {
 }
 function editableBlocks(doc) {
   const candidates = [...doc.querySelectorAll('.site-brand,.hero .eyebrow,.hero h1,.hero .lead,.hero-links a,.enrollment-note,main section h2,main section h3,main section p,main section .quote,main section .mission strong,main section .mission div,main section .section-kicker,.schedule-contact,.consult-step span,footer')];
-  return candidates.filter(el => !el.closest('#calendar,#classes,#video,#samples,#contact,#month') && !candidates.some(other => other !== el && other.contains(el)));
+  return candidates.filter(el => !el.closest('#calendar,#classes,#video,#samples,#contact,#month,#faq-list') && !candidates.some(other => other !== el && other.contains(el)));
 }
 function syncEditable(element) {
   const key = element.dataset.editKey;
@@ -112,6 +112,8 @@ function syncEditable(element) {
     const [, index, field] = key.split(':'); state.data.classes[index][field] = element.textContent;
   } else if (key.startsWith('sample:')) {
     const [, index, field] = key.split(':'); state.data.samples[index][field] = element.textContent;
+  } else if (key.startsWith('faq:')) {
+    const [, index, field] = key.split(':'); state.data.faqs[index][field] = element.textContent;
   } else if (key === 'contactLabel') state.data.contactLabel = element.textContent;
   changed();
 }
@@ -196,6 +198,24 @@ function bindCanvas(doc) {
       if (description) markEditable(description, 'sample:' + index + ':description');
       link.dataset.settings = 'samples'; link.title = 'PDF 설정 열기';
     });
+    doc.querySelectorAll('#faq-list .faq-item').forEach((item, index) => {
+      item.open = true;
+      markEditable(item.querySelector('.faq-question'), 'faq:' + index + ':question');
+      markEditable(item.querySelector('.faq-answer'), 'faq:' + index + ':answer');
+      item.querySelector('summary').addEventListener('click', event => event.preventDefault());
+    });
+    const faq = doc.getElementById('faq');
+    if (faq) {
+      faq.hidden = false;
+      const controls = doc.createElement('div');
+      controls.style.cssText = 'display:flex;gap:10px;margin-top:20px';
+      for (const [label, callback] of [['+ 질문 추가', () => mutate(() => (state.data.faqs ||= []).push({question:'새 질문', answer:'답변을 입력해 주세요.'}))], ['FAQ 관리', () => openPanel('faq')]]) {
+        const button = doc.createElement('button'); button.textContent = label; button.type = 'button';
+        button.style.cssText = 'font:inherit;padding:10px 15px;border:1px solid #bfb6a7;border-radius:7px;background:#fff;cursor:pointer';
+        button.onclick = callback; controls.append(button);
+      }
+      faq.querySelector('.wrap').append(controls);
+    }
     const contact = doc.querySelector('#contact .btn'); if (contact) markEditable(contact.querySelector('.contact-label') || contact, 'contactLabel');
     for (const [selector, panel, label] of [['#video', 'media', '영상 바꾸기'], ['#calendar', 'media', '달력 바꾸기'], ['#month', 'schedule', '월 · 수업 횟수 · 가격 수정']]) {
       const element = doc.querySelector(selector); element.dataset.settings = panel; element.title = label; element.tabIndex = 0;
@@ -332,6 +352,16 @@ function renderSettings() {
     });
     uploadControl(root, 'PDF 추가 업로드', 'application/pdf,.pdf', (path, file) => data.samples.push({ title: file.name.replace(/\.pdf$/i, ''), url: path }), true);
     action(root, '+ 기존 PDF 링크 추가', () => mutate(() => data.samples.push({ title: '새 수업 자료', url: '', description: '' })), 'wide');
+  } else if (state.panel === 'faq') {
+    root.append(node('h2', '자주 묻는 질문'), node('p', '질문과 답변은 페이지에서 직접 수정하거나 여기에서 입력할 수 있어요. 미리보기에서는 답변을 펼치고 접을 수 있습니다.'));
+    (data.faqs || []).forEach((item, index) => {
+      const card = node('div', undefined, 'setting-card');
+      field(card, '질문 ' + (index + 1), item.question, value => item.question = value);
+      field(card, '답변', item.answer, value => item.answer = value, {multiline:true});
+      action(card, '질문 삭제', () => mutate(() => data.faqs.splice(index, 1)), 'danger wide');
+      root.append(card);
+    });
+    action(root, '+ 질문 추가', () => mutate(() => (data.faqs ||= []).push({question:'새 질문', answer:'답변을 입력해 주세요.'})), 'wide');
   } else if (state.panel === 'design') {
     root.append(node('h2', '분필 색상'), node('p', '칠판에서는 밝은 색상, 크림색 배경에서는 읽기 쉬운 진한 색상을 자동으로 사용합니다.'));
     const names = { green: '초록', yellow: '노랑', pink: '분홍', blue: '파랑' };
@@ -372,7 +402,7 @@ async function loadSite() {
       [html, data] = await Promise.all(responses.map(response => response.text()));
     }
     state.sourceHTML = html; state.sourceData = data; state.doc = parseHTML(html); state.data = JSON.parse(data);
-    state.data.classes ||= []; state.data.samples ||= [];
+    state.data.classes ||= []; state.data.samples ||= []; state.data.faqs ||= [];
     state.baseline = signature(); checkpoint(); renderCanvas();
   } catch (error) { $('saveState').textContent = '불러오기 실패'; notify(error.message); }
 }
@@ -384,6 +414,7 @@ function validateData() {
     try { const url = new URL(value, location.href); return ['http:', 'https:'].includes(url.protocol); } catch { return false; }
   }
   for (const value of [state.data.calendar, state.data.youtube, state.data.instagram, ...state.data.samples.flatMap(item => [item.url, item.preview])]) if (!safeURL(value)) throw Error('링크는 https:// 주소 또는 파일 경로를 사용해 주세요.');
+  for (const item of state.data.faqs || []) if (!item.question.trim() || !item.answer.trim()) throw Error('각 FAQ의 질문과 답변을 입력해 주세요.');
   for (const sample of state.data.samples) if (!sample.title.trim() || !sample.url.trim()) throw Error('각 PDF의 이름과 링크를 입력해 주세요.');
 }
 async function publishChanges() {

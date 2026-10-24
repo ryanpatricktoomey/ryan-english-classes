@@ -66,6 +66,18 @@ function renderSite(data, root = document) {
     grid.append(link);
   });
   if (data.samples?.length) get('samples').replaceChildren(grid);
+  const faq = get('faq-list');
+  if (faq) {
+    faq.replaceChildren();
+    (data.faqs || []).forEach(item => {
+      const details = make('details', 'faq-item');
+      const summary = make('summary');
+      summary.append(make('span', 'faq-question', item.question));
+      details.append(summary, make('div', 'faq-answer', item.answer));
+      faq.append(details);
+    });
+    get('faq').hidden = !(data.faqs || []).length;
+  }
   if (data.instagram) {
     const contact = make('a', 'btn');
     contact.style.gap = '10px';
@@ -85,4 +97,43 @@ function renderSite(data, root = document) {
     contact.rel = 'noopener';
     get('contact').replaceChildren(contact);
   }
+}
+
+// Re-align an initial deep link while asynchronous content above it settles.
+// User interaction immediately gives scrolling back to the visitor.
+function settleInitialSectionLink() {
+  const hash = location.hash;
+  if (!hash) return;
+  let target;
+  try { target = document.getElementById(decodeURIComponent(hash.slice(1))); } catch { return; }
+  if (!target) return;
+  let stopped = false, queued = false;
+  const events = ['wheel', 'touchstart', 'pointerdown', 'keydown'];
+  const stop = () => {
+    stopped = true; observer.disconnect(); clearTimeout(timeout);
+    events.forEach(type => window.removeEventListener(type, stop));
+    window.removeEventListener('hashchange', stop);
+  };
+  const align = () => {
+    if (stopped || queued || location.hash !== hash) return;
+    queued = true;
+    requestAnimationFrame(() => {
+      queued = false;
+      if (stopped) return;
+      const padding = parseFloat(getComputedStyle(document.documentElement).scrollPaddingTop) || 0;
+      const top = target.getBoundingClientRect().top + window.scrollY - padding;
+      window.scrollTo({top, behavior: 'instant'});
+    });
+  };
+  const observer = new ResizeObserver(align);
+  const timeout = setTimeout(stop, 10000);
+  events.forEach(type => window.addEventListener(type, stop, {passive:true, once:true}));
+  window.addEventListener('hashchange', stop, {once:true});
+  document.querySelectorAll('main > *, #calendar, #video, #samples, #classes').forEach(el => observer.observe(el));
+  // Images before the destination must load even when the initial anchor skips them.
+  document.querySelectorAll('img').forEach(image => {
+    if (image.compareDocumentPosition(target) & Node.DOCUMENT_POSITION_FOLLOWING) image.loading = 'eager';
+  });
+  document.fonts.ready.then(align);
+  align();
 }
