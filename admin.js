@@ -196,7 +196,7 @@ function bindCanvas(doc) {
       if (description) markEditable(description, 'sample:' + index + ':description');
       link.dataset.settings = 'samples'; link.title = 'PDF 설정 열기';
     });
-    const contact = doc.querySelector('#contact .btn'); if (contact) markEditable(contact, 'contactLabel');
+    const contact = doc.querySelector('#contact .btn'); if (contact) markEditable(contact.querySelector('.contact-label') || contact, 'contactLabel');
     for (const [selector, panel, label] of [['#video', 'media', '영상 바꾸기'], ['#calendar', 'media', '달력 바꾸기'], ['#month', 'schedule', '월 · 수업 횟수 · 가격 수정']]) {
       const element = doc.querySelector(selector); element.dataset.settings = panel; element.title = label; element.tabIndex = 0;
       if (selector !== '#month') { const tag = doc.createElement('span'); tag.className = 'editor-media-label'; tag.textContent = label; element.prepend(tag); }
@@ -339,7 +339,7 @@ function renderSettings() {
   } else if (state.panel === 'contact') {
     root.append(node('h2', '무료 상담'));
     field(root, 'Instagram DM 링크', data.instagram, value => data.instagram = value, { type: 'url' });
-    field(root, '상담 버튼 문구', data.contactLabel || '📩 Instagram DM으로 무료 상담 문의', value => data.contactLabel = value);
+    field(root, '상담 버튼 문구', data.contactLabel || 'Instagram DM으로 무료 상담 문의', value => data.contactLabel = value);
     root.append(node('h2', '검색 결과 설명'));
     field(root, '사이트 설명', state.doc.querySelector('meta[name=description]')?.content || '', value => { let meta = state.doc.querySelector('meta[name=description]'); if (!meta) { meta = state.doc.createElement('meta'); meta.name = 'description'; state.doc.head.append(meta); } meta.content = value; }, { multiline: true });
   }

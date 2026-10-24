@@ -28,7 +28,8 @@ async function runEditorTests(){try{
  frame.querySelector('#classes .status').click();assertEditor('Clicking availability toggles its data',state.data.classes[0].available===false);
  travel(-1);await waitCanvas();assertEditor('Undo restores availability without losing class-time edits',state.data.classes[0].available===true&&state.data.classes[0].time==='오전 07:00–07:30');
  frame=$('canvas').contentDocument;const title=frame.querySelector('.sample-title');title.textContent='새 PDF 제목';title.dispatchEvent(new InputEvent('input',{bubbles:true}));checkpoint();assertEditor('PDF titles are editable in place',state.data.samples[0].title==='새 PDF 제목');
- const contact=frame.querySelector('#contact .btn');contact.textContent='상담 문의하기';contact.dispatchEvent(new InputEvent('input',{bubbles:true}));checkpoint();assertEditor('Consultation button wording is editable',state.data.contactLabel==='상담 문의하기');
+ const contact=frame.querySelector('#contact .contact-label');contact.textContent='상담 문의하기';contact.dispatchEvent(new InputEvent('input',{bubbles:true}));checkpoint();assertEditor('Consultation button wording is editable',state.data.contactLabel==='상담 문의하기');
+ assertEditor('Instagram icon survives label editing',frame.querySelector('#contact svg')?.getAttribute('aria-hidden')==='true'&&frame.querySelectorAll('#contact svg circle').length===2);
  setColor('green','#ffffff');checkpoint();assertEditor('Custom chalk colors persist',currentColor('green')==='#ffffff');
  assertEditor('Derived colors remain readable on the darkest light background',(luminance([238,233,223])+.05)/(luminance(inkColor('#ffffff').match(/[a-f0-9]{2}/gi).map(x=>parseInt(x,16)))+.05)>=4.5);
  $('previewToggle').click();await new Promise(r=>setTimeout(r,200));frame=$('canvas').contentDocument;
