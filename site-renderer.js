@@ -67,7 +67,19 @@ function renderSite(data, root = document) {
   });
   if (data.samples?.length) get('samples').replaceChildren(grid);
   if (data.instagram) {
-    const contact = make('a', 'btn', data.contactLabel || '📩 Instagram DM으로 무료 상담 문의');
+    const contact = make('a', 'btn');
+    contact.style.gap = '10px';
+    const label = make('span', 'contact-label', (data.contactLabel || 'Instagram DM으로 무료 상담 문의').replace(/^📩\s*/u, ''));
+    const ns = 'http://www.w3.org/2000/svg';
+    const icon = root.createElementNS(ns, 'svg');
+    Object.entries({ viewBox: '0 0 24 24', width: '20', height: '20', fill: 'none', stroke: 'currentColor', 'stroke-width': '1.8', 'aria-hidden': 'true', focusable: 'false' }).forEach(([key, value]) => icon.setAttribute(key, value));
+    icon.style.flexShrink = '0';
+    for (const [tag, attrs] of [['rect', { x: '3', y: '3', width: '18', height: '18', rx: '5' }], ['circle', { cx: '12', cy: '12', r: '4' }], ['circle', { cx: '17.5', cy: '6.5', r: '1', fill: 'currentColor', stroke: 'none' }]]) {
+      const shape = root.createElementNS(ns, tag);
+      Object.entries(attrs).forEach(([key, value]) => shape.setAttribute(key, value));
+      icon.append(shape);
+    }
+    contact.append(icon, label);
     contact.href = data.instagram;
     contact.target = '_blank';
     contact.rel = 'noopener';
