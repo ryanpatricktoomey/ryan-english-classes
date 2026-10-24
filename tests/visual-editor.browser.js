@@ -43,7 +43,7 @@ async function runEditorTests(){try{
  assertEditor('FAQ questions can be added',state.data.faqs.length===originalCount+1);
  frame=$('canvas').contentDocument;
  const question=frame.querySelector('[data-edit-key="faq:3:question"]');question.textContent='새로운 질문?';question.dispatchEvent(new InputEvent('input',{bubbles:true}));checkpoint();
- const answer=frame.querySelector('[data-edit-key="faq:3:answer"]');answer.textContent='첫 번째 줄\n두 번째 줄';answer.dispatchEvent(new InputEvent('input',{bubbles:true}));checkpoint();
+ const answer=frame.querySelector('[data-edit-key="faq:3:answer"]');answer.innerHTML='첫 번째 줄<br>두 번째 줄';answer.dispatchEvent(new InputEvent('input',{bubbles:true}));checkpoint();
  assertEditor('Inline FAQ edits persist as plain text',state.data.faqs[3].question==='새로운 질문?'&&state.data.faqs[3].answer.includes('\n'));
  travel(-1);await waitCanvas();assertEditor('FAQ answer changes support undo',state.data.faqs[3].answer==='답변을 입력해 주세요.');
  openPanel('faq');$('settingsContent').querySelectorAll('.danger')[3].click();await waitCanvas();assertEditor('FAQ questions can be removed',state.data.faqs.length===originalCount);

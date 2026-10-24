@@ -113,7 +113,7 @@ function syncEditable(element) {
   } else if (key.startsWith('sample:')) {
     const [, index, field] = key.split(':'); state.data.samples[index][field] = element.textContent;
   } else if (key.startsWith('faq:')) {
-    const [, index, field] = key.split(':'); state.data.faqs[index][field] = element.textContent;
+    const [, index, field] = key.split(':'); state.data.faqs[index][field] = field === 'answer' ? element.innerText : element.textContent;
   } else if (key === 'contactLabel') state.data.contactLabel = element.textContent;
   changed();
 }
