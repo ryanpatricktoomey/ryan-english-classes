@@ -22,8 +22,8 @@
   "classes": [
     {
       "name": "SB반",
-      "time": "오전 06:30–07:00--->자리 1개 남았어요!",
-      "available": true
+      "time": "오전 06:30–07:00",
+      "available": false
     },
     {
       "name": "A반",
