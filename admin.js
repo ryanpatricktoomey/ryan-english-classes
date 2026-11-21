@@ -88,7 +88,7 @@ function cleanMarkup(source) {
         if (['div', 'p'].includes(tag)) child.before(document.createElement('br'));
         child.replaceWith(...child.childNodes); continue;
       }
-      const chalk = [...child.classList].filter(c => /^chalk-(green|yellow|pink|blue)$/.test(c));
+      const chalk = [...child.classList].filter(c => /^(chalk-(green|yellow|pink|blue)|registration-announcement)$/.test(c));
       const decorative = child.getAttribute('aria-hidden') === 'true';
       for (const attr of [...child.attributes]) child.removeAttribute(attr.name);
       if (chalk.length) child.className = chalk.join(' ');
