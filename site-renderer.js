@@ -35,13 +35,50 @@ function renderSite(data, root = document) {
       if (url.hostname === 'youtu.be') id = url.pathname.slice(1);
       if (url.pathname.startsWith('/embed/')) id = url.pathname.split('/')[2];
       if (id && /^[\w-]{11}$/.test(id)) {
-        const frame = make('iframe');
-        frame.src = 'https://www.youtube-nocookie.com/embed/' + id;
-        frame.title = '수업 설명 영상';
-        frame.allow = 'accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture';
-        frame.allowFullscreen = true;
-        frame.loading = 'lazy';
-        get('video').replaceChildren(frame);
+        const loadPlayer = () => {
+          const frame = make('iframe');
+          const embed = new URL('https://www.youtube-nocookie.com/embed/' + id);
+          embed.searchParams.set('autoplay', '1');
+          const start = url.searchParams.get('start') || url.searchParams.get('t');
+          if (start && /^\d+s?$/.test(start)) embed.searchParams.set('start', parseInt(start, 10));
+          frame.src = embed.href;
+          frame.title = '수업 설명 영상';
+          frame.allow = 'accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture';
+          frame.allowFullscreen = true;
+          get('video').replaceChildren(frame);
+          frame.focus();
+        };
+        if (data.videoPoster) {
+          // Detached editor documents remain script-free and link to YouTube.
+          const cover = make(root === document ? 'button' : 'a', 'video-cover');
+          if (root === document) {
+            cover.type = 'button';
+            cover.addEventListener('click', loadPlayer, { once: true });
+          } else {
+            cover.href = data.youtube;
+            cover.target = '_blank';
+            cover.rel = 'noopener';
+          }
+          cover.setAttribute('aria-label', '수업 설명 영상 재생');
+          const poster = make('img');
+          poster.src = data.videoPoster;
+          poster.alt = '';
+          poster.width = 1672;
+          poster.height = 941;
+          poster.loading = 'lazy';
+          const play = make('span', 'video-play', '▶');
+          play.setAttribute('aria-hidden', 'true');
+          cover.append(poster, play);
+          get('video').replaceChildren(cover);
+        } else {
+          const frame = make('iframe');
+          frame.src = 'https://www.youtube-nocookie.com/embed/' + id;
+          frame.title = '수업 설명 영상';
+          frame.allow = 'accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture';
+          frame.allowFullscreen = true;
+          frame.loading = 'lazy';
+          get('video').replaceChildren(frame);
+        }
       }
     } catch { /* An invalid video URL should not hide the timetable or contact link. */ }
   }

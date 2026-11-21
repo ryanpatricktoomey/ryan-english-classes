@@ -145,6 +145,7 @@ function viewData() {
   const data = structuredClone(state.data);
   const resolve = path => state.uploads.get(path)?.url || path;
   data.calendar = resolve(data.calendar);
+  data.videoPoster = resolve(data.videoPoster);
   (data.samples || []).forEach(sample => { sample.url = resolve(sample.url); sample.preview = resolve(sample.preview); });
   return data;
 }
@@ -336,6 +337,8 @@ function renderSettings() {
   } else if (state.panel === 'media') {
     root.append(node('h2', '수업 설명 영상'));
     field(root, 'YouTube 링크', data.youtube, value => data.youtube = value, { type: 'url' });
+    field(root, '영상 표지 이미지 경로 또는 URL', data.videoPoster, value => data.videoPoster = value);
+    uploadControl(root, '새 영상 표지 (PNG / JPG / WebP)', 'image/png,image/jpeg,image/webp', path => data.videoPoster = path);
     root.append(node('h2', '월간 달력'));
     field(root, '현재 이미지 경로 또는 URL', data.calendar, value => data.calendar = value);
     uploadControl(root, '새 달력 이미지 (PNG / JPG / WebP)', 'image/png,image/jpeg,image/webp', path => data.calendar = path);
@@ -413,7 +416,7 @@ function validateData() {
     if (!value) return true;
     try { const url = new URL(value, location.href); return ['http:', 'https:'].includes(url.protocol); } catch { return false; }
   }
-  for (const value of [state.data.calendar, state.data.youtube, state.data.instagram, ...state.data.samples.flatMap(item => [item.url, item.preview])]) if (!safeURL(value)) throw Error('링크는 https:// 주소 또는 파일 경로를 사용해 주세요.');
+  for (const value of [state.data.videoPoster, state.data.calendar, state.data.youtube, state.data.instagram, ...state.data.samples.flatMap(item => [item.url, item.preview])]) if (!safeURL(value)) throw Error('링크는 https:// 주소 또는 파일 경로를 사용해 주세요.');
   for (const item of state.data.faqs || []) if (!item.question.trim() || !item.answer.trim()) throw Error('각 FAQ의 질문과 답변을 입력해 주세요.');
   for (const sample of state.data.samples) if (!sample.title.trim() || !sample.url.trim()) throw Error('각 PDF의 이름과 링크를 입력해 주세요.');
 }
@@ -432,7 +435,7 @@ async function publishChanges() {
     if (!pageMatches || !dataMatches) throw Error('다른 곳에서 사이트가 변경되었어요. 현재 수정 내용을 보관한 채 게시를 멈췄습니다. 최신 사이트를 확인한 뒤 다시 편집해 주세요.');
     const html = serializedHTML(); const json = JSON.stringify(state.data, null, 2) + '\n';
     const entries = [];
-    const used = new Set([state.data.calendar, ...state.data.samples.flatMap(item => [item.url, item.preview])]);
+    const used = new Set([state.data.videoPoster, state.data.calendar, ...state.data.samples.flatMap(item => [item.url, item.preview])]);
     for (const [path, upload] of state.uploads) {
       if (!used.has(path)) continue;
       progress('파일 준비 중: ' + upload.file.name);
