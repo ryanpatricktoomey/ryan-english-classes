@@ -66,7 +66,7 @@ function renderSite(data, root = document) {
           poster.width = 1672;
           poster.height = 941;
           poster.loading = 'lazy';
-          const play = make('span', 'video-play', '▶');
+          const play = make('span', 'video-play', '영상 보기 ▶');
           play.setAttribute('aria-hidden', 'true');
           cover.append(poster, play);
           get('video').replaceChildren(cover);
