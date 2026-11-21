@@ -12,7 +12,9 @@ function renderSite(data, root = document) {
   get('classes').replaceChildren();
   (data.classes || []).forEach(item => {
     const row = make('div', 'class');
-    row.append(make('strong', '', item.name + ' · ' + item.time),
+    const title = make('strong');
+    title.append(make('span', 'class-name', item.name), make('span', 'class-time', item.time));
+    row.append(title,
       make('span', 'status' + (item.available ? ' open' : ''), item.available ? '🟢 신청 가능' : '🔴 마감'));
     get('classes').append(row);
   });
