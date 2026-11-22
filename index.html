@@ -132,6 +132,11 @@ body{font-size:17px}
 .registration-grid{padding:20px}
 .consult-panel .consult-steps{gap:12px;padding:18px 0;margin:20px 0}
 }
+
+/* PDF cards without thumbnails need the full content width. */
+.sample-card:not(:has(.sample-preview)){grid-template-columns:minmax(0,1fr)}
+.sample-content{min-width:0}
+.sample-action{white-space:nowrap}
 </style><!-- Cloudflare Web Analytics --><script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon="{&quot;token&quot;: &quot;5d78ba96ea4043eb84835f4abd0e9169&quot;}"></script><!-- End Cloudflare Web Analytics -->
 </head><body>
 <main><div class="hero"><div class="wrap hero-inner"><div class="site-brand">🇨🇦 Ryan쌤 영어회화</div><div class="hero-stage"><div class="hero-copy"><div class="eyebrow">SPEAK ENGLISH EVERY DAY</div><h1>매일 <span class="chalk-pink">30분</span><br><span class="chalk-yellow">영어로 대화해요!</span></h1><p class="lead"><span class="registration-announcement"><strong>12월 수강생 모집 · 12월 1일 시작</strong></span><br>하루 30분<br>영어로 대화하는 습관을 함께 만들어요.</p></div><figure class="hero-portrait"><img src="assets/ryan-hero.webp" width="800" height="1000" alt="Ryan쌤과 LET’S TALK! 칠판" fetchpriority="high"></figure></div><div class="hero-links"><a href="#intro">수업 소개</a><a href="#preview">수업 미리보기</a><a href="#schedule">시간표</a><a href="#consult">무료 상담</a></div><p class="enrollment-note"><strong>온라인 그룹 회화 · 월–금 · 한 반 최대 8명<br>매일 다른 주제로 대화!</strong><span aria-hidden="true">&nbsp;</span></p></div></div>
