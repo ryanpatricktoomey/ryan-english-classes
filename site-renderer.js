@@ -117,8 +117,9 @@ function renderSite(data, root = document) {
     });
     get('faq').hidden = !(data.faqs || []).length;
   }
+  const contactButtons = make('div', 'contact-options');
   if (data.instagram) {
-    const contact = make('a', 'btn');
+    const contact = make('a', 'btn contact-instagram');
     contact.style.gap = '10px';
     const label = make('span', 'contact-label', (data.contactLabel || 'Instagram DM으로 무료 상담 문의').replace(/^📩\s*/u, ''));
     const ns = 'http://www.w3.org/2000/svg';
@@ -134,7 +135,28 @@ function renderSite(data, root = document) {
     contact.href = data.instagram;
     contact.target = '_blank';
     contact.rel = 'noopener';
-    get('contact').replaceChildren(contact);
+    contactButtons.append(contact);
+  }
+
+  if (data.kakao) {
+    const contact = make('a', 'btn contact-kakao');
+    contact.href = data.kakao;
+    contact.target = '_blank';
+    contact.rel = 'noopener';
+    const ns = 'http://www.w3.org/2000/svg';
+    const icon = root.createElementNS(ns, 'svg');
+    Object.entries({viewBox:'0 0 24 24',width:'21',height:'21',fill:'currentColor','aria-hidden':'true'}).forEach(([k,v])=>icon.setAttribute(k,v));
+    const path = root.createElementNS(ns, 'path');
+    path.setAttribute('d','M12 3C6.5 3 2 6.5 2 10.8c0 2.8 1.9 5.3 4.8 6.7l-1.1 3.7 4.3-2.7c.7.1 1.3.2 2 .2 5.5 0 10-3.5 10-7.9S17.5 3 12 3Z');
+    icon.append(path);
+    contact.append(icon, make('span','kakao-label',data.kakaoLabel || '카카오톡으로 문의하기'));
+    contactButtons.append(contact);
+  }
+  if (get('contact')) get('contact').replaceChildren(contactButtons);
+  const sampleContact = get('sample-contact');
+  if (sampleContact) {
+    sampleContact.hidden = !contactButtons.children.length;
+    sampleContact.replaceChildren(make('p','contact-prompt','수업이 궁금하신가요? 편한 방법으로 문의해 주세요.'), contactButtons.cloneNode(true));
   }
 }
 

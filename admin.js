@@ -100,7 +100,7 @@ function cleanMarkup(source) {
 }
 function editableBlocks(doc) {
   const candidates = [...doc.querySelectorAll('.site-brand,.hero .eyebrow,.hero h1,.hero .lead,.hero-links a,.enrollment-note,main section h2,main section h3,main section p,main section .quote,main section .mission strong,main section .mission div,main section .section-kicker,.schedule-contact,.consult-step span,footer')];
-  return candidates.filter(el => !el.closest('#calendar,#classes,#video,#samples,#contact,#month,#faq-list') && !candidates.some(other => other !== el && other.contains(el)));
+  return candidates.filter(el => !el.closest('#calendar,#classes,#video,#samples,#sample-contact,#contact,#month,#faq-list') && !candidates.some(other => other !== el && other.contains(el)));
 }
 function syncEditable(element) {
   const key = element.dataset.editKey;
@@ -115,6 +115,7 @@ function syncEditable(element) {
   } else if (key.startsWith('faq:')) {
     const [, index, field] = key.split(':'); state.data.faqs[index][field] = field === 'answer' ? element.innerText : element.textContent;
   } else if (key === 'contactLabel') state.data.contactLabel = element.textContent;
+  else if (key === 'kakaoLabel') state.data.kakaoLabel = element.textContent;
   changed();
 }
 function insertText(doc, text) {
@@ -217,7 +218,8 @@ function bindCanvas(doc) {
       }
       faq.querySelector('.wrap').append(controls);
     }
-    const contact = doc.querySelector('#contact .btn'); if (contact) markEditable(contact.querySelector('.contact-label') || contact, 'contactLabel');
+    const contact = doc.querySelector('#contact .contact-instagram'); if (contact) markEditable(contact.querySelector('.contact-label') || contact, 'contactLabel');
+    const kakao = doc.querySelector('#contact .kakao-label'); if (kakao) markEditable(kakao, 'kakaoLabel');
     for (const [selector, panel, label] of [['#video', 'media', '영상 바꾸기'], ['#calendar', 'media', '달력 바꾸기'], ['#month', 'schedule', '월 · 수업 횟수 · 가격 수정']]) {
       const element = doc.querySelector(selector); element.dataset.settings = panel; element.title = label; element.tabIndex = 0;
       if (selector !== '#month') { const tag = doc.createElement('span'); tag.className = 'editor-media-label'; tag.textContent = label; element.prepend(tag); }
@@ -371,6 +373,8 @@ function renderSettings() {
     colors.forEach(color => field(root, names[color] + ' 분필', currentColor(color), value => setColor(color, value), { type: 'color' }));
   } else if (state.panel === 'contact') {
     root.append(node('h2', '무료 상담'));
+    field(root, '카카오톡 채팅 링크', data.kakao, value => data.kakao = value, { type: 'url' });
+    field(root, '카카오톡 버튼 문구', data.kakaoLabel || '카카오톡으로 문의하기', value => data.kakaoLabel = value);
     field(root, 'Instagram DM 링크', data.instagram, value => data.instagram = value, { type: 'url' });
     field(root, '상담 버튼 문구', data.contactLabel || 'Instagram DM으로 무료 상담 문의', value => data.contactLabel = value);
     root.append(node('h2', '검색 결과 설명'));
@@ -416,7 +420,7 @@ function validateData() {
     if (!value) return true;
     try { const url = new URL(value, location.href); return ['http:', 'https:'].includes(url.protocol); } catch { return false; }
   }
-  for (const value of [state.data.videoPoster, state.data.calendar, state.data.youtube, state.data.instagram, ...state.data.samples.flatMap(item => [item.url, item.preview])]) if (!safeURL(value)) throw Error('링크는 https:// 주소 또는 파일 경로를 사용해 주세요.');
+  for (const value of [state.data.videoPoster, state.data.calendar, state.data.youtube, state.data.instagram, state.data.kakao, ...state.data.samples.flatMap(item => [item.url, item.preview])]) if (!safeURL(value)) throw Error('링크는 https:// 주소 또는 파일 경로를 사용해 주세요.');
   for (const item of state.data.faqs || []) if (!item.question.trim() || !item.answer.trim()) throw Error('각 FAQ의 질문과 답변을 입력해 주세요.');
   for (const sample of state.data.samples) if (!sample.title.trim() || !sample.url.trim()) throw Error('각 PDF의 이름과 링크를 입력해 주세요.');
 }
